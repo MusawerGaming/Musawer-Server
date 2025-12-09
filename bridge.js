@@ -1,7 +1,8 @@
 import WebSocket from "ws";
 import net from "net";
 
-const port = process.env.PORT || 10000; // Render injects PORT
+// Render injects PORT automatically (usually 10000)
+const port = process.env.PORT;
 const backendHost = "musawer.mycuba.live";
 const backendPort = 25594;
 
