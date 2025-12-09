@@ -1,0 +1,7 @@
+listeners:
+  - addr: ":${PORT}"
+    proxy_protocol: false
+    websocket: true
+
+servers:
+  - addr: "mycuba.live:25594"
