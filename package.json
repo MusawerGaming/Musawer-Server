@@ -9,5 +9,9 @@
   },
   "dependencies": {
     "ws": "^8.18.0"
-  }
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "license": "MIT"
 }
