@@ -1,3 +1,5 @@
-FROM ghcr.io/minekube/gate:latest
-COPY config.yml /config.yml
-CMD ["/gate", "run", "--config", "/config.yml"]
+FROM node:18-alpine
+WORKDIR /app
+COPY bridge.js .
+RUN npm install ws
+CMD ["node", "bridge.js"]
