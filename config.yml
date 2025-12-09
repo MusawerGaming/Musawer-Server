@@ -1,5 +1,5 @@
 listeners:
-  - addr: ":25565"
+  - addr: ":${PORT}"
     websocket: true
 
 java:
@@ -7,6 +7,6 @@ java:
     - addr: "mycuba.live:25594"
 
 http:
-  addr: ":8080"
+  addr: ":${PORT}"
   health:
     path: "/ping"
