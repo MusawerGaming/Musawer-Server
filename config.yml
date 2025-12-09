@@ -4,9 +4,4 @@ listeners:
 
 java:
   servers:
-    - addr: "mycuba.live:25594"
-
-http:
-  addr: ":${PORT}"
-  health:
-    path: "/ping"
+    - addr: "musawer.mycuba.live:25594"
