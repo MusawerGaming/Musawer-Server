@@ -5,3 +5,8 @@ listeners:
 java:
   servers:
     - addr: "mycuba.live:25594"
+
+http:
+  addr: ":8080"
+  health:
+    path: "/ping"
