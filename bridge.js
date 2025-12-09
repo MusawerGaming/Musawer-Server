@@ -28,6 +28,7 @@ const wss = new WebSocketServer({
 });
 
 wss.on("connection", (ws) => {
+  console.log("New WS connection");
   const backend = net.createConnection({ host: backendHost, port: backendPort });
 
   ws.on("message", (msg) => {
