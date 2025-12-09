@@ -1,7 +1,0 @@
-listeners:
-  - addr: ":${PORT}"
-    websocket: true
-
-java:
-  servers:
-    - addr: "musawer.mycuba.live:25594"
