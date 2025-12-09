@@ -2,5 +2,6 @@ listeners:
   - addr: ":${PORT}"
     websocket: true
 
-servers:
-  - addr: "mycuba.live:25594"
+java:
+  servers:
+    - addr: "mycuba.live:25594"
