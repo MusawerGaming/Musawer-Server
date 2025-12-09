@@ -1,6 +1,5 @@
 listeners:
   - addr: ":${PORT}"
-    proxy_protocol: false
     websocket: true
 
 servers:
