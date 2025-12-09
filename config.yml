@@ -1,5 +1,5 @@
 listeners:
-  - addr: ":${PORT}"
+  - addr: ":25565"
     websocket: true
 
 java:
