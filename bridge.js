@@ -22,33 +22,90 @@ const server = http.createServer((req, res) => {
   }
 });
 
+// Timeouts to keep health checks and upgrades stable
+server.keepAliveTimeout = 0;
+server.headersTimeout = 0;
+
 const wss = new WebSocketServer({
   server,
-  perMessageDeflate: false // disable compression for speed
+  perMessageDeflate: false // disable compression for speed/CPU
 });
 
-wss.on("connection", (ws) => {
-  console.log("New WS connection");
+function connectBackend(ws) {
   const backend = net.createConnection({ host: backendHost, port: backendPort });
 
-  ws.on("message", (msg) => {
-    if (backend.writable) backend.write(Buffer.isBuffer(msg) ? msg : Buffer.from(msg));
+  backend.on("connect", () => {
+    console.log(`Backend connected: ${backendHost}:${backendPort}`);
   });
 
   backend.on("data", (data) => {
-    if (ws.readyState === WebSocket.OPEN) ws.send(data, { binary: true });
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(data, { binary: true });
+    }
   });
 
-  ws.on("close", () => backend.end());
   backend.on("end", () => {
-    if (ws.readyState === WebSocket.OPEN) ws.close();
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.close();
+    }
   });
 
-  ws.on("error", (err) => console.warn("WS error:", err.message));
   backend.on("error", (err) => {
-    console.warn("Backend error:", err.message);
-    if (ws.readyState === WebSocket.OPEN) ws.close();
+    console.error("Backend error:", err.message);
+    // Clean up and retry after 5s if client is still connected
+    try { backend.destroy(); } catch {}
+    if (ws.readyState === WebSocket.OPEN) {
+      setTimeout(() => {
+        console.log("Retrying backend connection in 5s...");
+        const retryBackend = connectBackend(ws);
+        // Rebind message forwarding to the new backend
+        ws._backend = retryBackend;
+      }, 5000);
+    }
   });
+
+  return backend;
+}
+
+wss.on("connection", (ws) => {
+  console.log("New WS connection");
+  ws.binaryType = "arraybuffer";
+
+  // Establish initial backend connection
+  ws._backend = connectBackend(ws);
+
+  // Forward WS -> TCP (binary safe)
+  ws.on("message", (msg) => {
+    const backend = ws._backend;
+    if (backend && backend.writable) {
+      backend.write(Buffer.isBuffer(msg) ? msg : Buffer.from(msg));
+    }
+  });
+
+  // Keep-alive: respond to pings
+  ws.on("ping", () => {
+    if (ws.readyState === WebSocket.OPEN) ws.pong();
+  });
+
+  // Clean shutdowns
+  ws.on("close", () => {
+    const backend = ws._backend;
+    if (backend) {
+      try { backend.end(); } catch {}
+      try { backend.destroy(); } catch {}
+    }
+  });
+
+  ws.on("error", (err) => {
+    console.warn("WS error:", err.message);
+  });
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught exception:", err);
+});
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled rejection:", reason);
 });
 
 server.listen(port, () => {
