@@ -1,3 +1,3 @@
 FROM ghcr.io/minekube/gate:latest
-COPY config.yml /etc/gate/config.yml
-CMD ["/gate", "run", "--config", "/etc/gate/config.yml"]
+COPY config.yml /config.yml
+CMD ["/gate", "run", "--config", "/config.yml"]
