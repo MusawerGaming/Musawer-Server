@@ -1,11 +1,11 @@
-import WebSocket from "ws";
+import { WebSocketServer } from "ws";
 import net from "net";
 
 const port = process.env.PORT || 3000;
 const backendHost = "musawer.mycuba.live";
 const backendPort = 25594;
 
-const wss = new WebSocket.Server({ port });
+const wss = new WebSocketServer({ port });
 
 wss.on("connection", (ws) => {
   const backend = net.createConnection({ host: backendHost, port: backendPort });
