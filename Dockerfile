@@ -1,4 +1,23 @@
- HEAD
+# Use an official base image with Java
+FROM eclipse-temurin:17-jre
+
+# Set working directory inside the container
+WORKDIR /velocity
+
+# Copy everything into the container
+COPY . .
+
+# Expose the default Minecraft proxy port
+EXPOSE 25565
+
+# Run the startup script
+CMD ["./main.sh"]
+
+ 
+
+
+
+HEAD
 # Use an official base image with Java
 FROM eclipse-temurin:17-jre
 
@@ -20,10 +39,4 @@ FROM eclipse-temurin:17-jdk
 WORKDIR /velocity
 
 COPY eagler-viaversion-files/server.jar .
-COPY eagler-viaversion-files/velocity.toml .
-COPY eagler-viaversion-files/forwarding.secret .
-
-EXPOSE 25565
-
-CMD ["java", "-jar", "server.jar"]
- 6fa0cd1f2b9a5972da9a4098e67770b2acea387d
+COPY eagler-viaversion-files/v
