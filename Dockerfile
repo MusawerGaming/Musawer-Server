@@ -1,14 +1,14 @@
-# Use an official base image with Java
 FROM eclipse-temurin:17-jre
 
-# Set working directory inside the container
 WORKDIR /velocity
 
-# Copy all project files into the container
-COPY . .
+# Copy Velocity runtime files into the working directory
+COPY eagler-viaversion-files/ ./
 
-# Expose the default Minecraft proxy port
+# Copy startup script
+COPY main.sh ./
+RUN chmod +x main.sh
+
 EXPOSE 25565
 
-# Run the startup script
 CMD ["./main.sh"]
