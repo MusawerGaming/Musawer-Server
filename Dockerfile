@@ -4,9 +4,10 @@ WORKDIR /velocity
 
 COPY eagler-viaversion-files/ ./
 COPY main.sh ./
-COPY healthcheck.py ./
 RUN chmod +x main.sh
 
-EXPOSE 25565 8000
+# Expose Minecraft + HTTP healthcheck ports
+EXPOSE 25565 10000
 
-CMD ["sh", "-c", "./main.sh & python3 healthcheck.py"]
+# Start Velocity AND a dummy HTTP server
+CMD ["sh", "-c", "./main.sh & httpd -f -p 10000"]
