@@ -4,8 +4,9 @@ WORKDIR /velocity
 
 COPY eagler-viaversion-files/ ./
 COPY main.sh ./
+COPY healthcheck.py ./
 RUN chmod +x main.sh
 
-EXPOSE 25565
+EXPOSE 25565 8000
 
-CMD ["./main.sh"]
+CMD ["sh", "-c", "./main.sh & python3 healthcheck.py"]
