@@ -1,0 +1,14 @@
+# velocity.toml
+
+bind = "0.0.0.0:25567"
+motd = "Eaglercraft Proxy"
+show-max-players = 100
+
+[servers]
+default = "backend"
+
+[forced-hosts]
+"musawer-server-1.onrender.com" = ["backend"]
+
+[server.backend]
+host = "mycuba.live:25594"
