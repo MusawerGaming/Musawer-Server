@@ -1,17 +1,16 @@
-# Velocity 3.2.0 specific config version
+# Velocity 3.2.0 Stable Configuration
 config-version = "2.5"
 
-# Bind to Render's port
+# Standard root settings
 bind = "0.0.0.0:10000"
-
-# Authentication
 online-mode = false
-
-# Player info forwarding (use modern for 1.13+ servers)
 player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
-
 announce-forge = false
+
+# ROOT MOTD SETTINGS (Fixes the ClassCastException)
+motd = "Musawer Proxy"
+show-max-players = 20
 
 [servers]
 default = "mycuba.live:25594"
@@ -19,13 +18,6 @@ try = ["default"]
 
 [forced-hosts]
 "musawer-server-1.onrender.com" = ["default"]
-
-# THIS SECTION PREVENTS YOUR CLASSCASTEXCEPTION CRASH
-[motd]
-# Supports MiniMessage (e.g. <red>) or legacy codes
-motd = "Musawer Proxy"
-show-max-players = 20
-ping-passthrough = "DISABLED"
 
 [advanced]
 connection-timeout = 5000
