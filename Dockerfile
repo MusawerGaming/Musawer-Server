@@ -1,20 +1,26 @@
-# Use Java 17 (Velocity requires Java 17+)
+# Use Java 17 for Velocity
 FROM eclipse-temurin:17-jdk-alpine
 
-# Set working directory inside the container
 WORKDIR /server
 
-# Copy your Velocity jar (renamed to velocity.jar in your repo)
+# Copy Velocity jar
 COPY velocity.jar server.jar
 
-# Copy plugins into the container
+# Copy plugins
 COPY plugins ./plugins
 
-# Copy Velocity configuration file
+# Copy Velocity config + secret
 COPY velocity.toml ./velocity.toml
+COPY forwarding.secret ./forwarding.secret
 
-# Expose the Velocity port
-EXPOSE 25567
+# Copy bridge files
+COPY package.json package-lock.json* ./
+RUN apk add --no-cache nodejs npm
+RUN npm install
+COPY bridge.js ./bridge.js
 
-# Run Velocity
-CMD ["java", "-jar", "server.jar"]
+# Expose both ports
+EXPOSE 25567 8080
+
+# Run both Velocity and the bridge
+CMD java -jar server.jar & node bridge.js
