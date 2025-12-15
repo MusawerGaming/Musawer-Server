@@ -1,16 +1,11 @@
-# Velocity 3.2.0 Stable Configuration
 config-version = "2.5"
 
-# Standard root settings
-bind = "0.0.0.0:10000"
+# BIND TO LOCALHOST ONLY (Prevents port conflict with bridge.js)
+bind = "127.0.0.1:25567"
+
 online-mode = false
 player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
-announce-forge = false
-
-# ROOT MOTD SETTINGS (Fixes the ClassCastException)
-motd = "Musawer Proxy"
-show-max-players = 20
 
 [servers]
 default = "mycuba.live:25594"
@@ -19,9 +14,7 @@ try = ["default"]
 [forced-hosts]
 "musawer-server-1.onrender.com" = ["default"]
 
-[advanced]
-connection-timeout = 5000
-read-timeout = 30000
-proxy-protocol = false
-compression-threshold = 256
-login-ratelimit = 3000
+[motd]
+motd = "Musawer Proxy"
+show-max-players = 20
+ping-passthrough = "DISABLED"
