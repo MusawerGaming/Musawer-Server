@@ -6,10 +6,8 @@ forwarding-secret-file = "forwarding.secret"
 [servers]
 default = "mycuba.live:25594"
 
-# New forced-hosts syntax (array of tables)
-[[forced-hosts]]
-host = "musawer-server-1.onrender.com"
+[forced-hosts."musawer-server-1.onrender.com"]
 server = "default"
 
 motd = "Musawer Eaglercraft Proxy"
-show-max-players = 100
+show-max-players = 20
