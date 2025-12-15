@@ -1,21 +1,22 @@
 # Velocity Configuration
-# Config version must be 2 for modern builds
-config-version = 2
+# Based on the default template, adapted for your setup
 
-# Bind address and port
-bind = "0.0.0.0:25567"
+config-version = "2.0"
+
+# Bind to Render's dynamic port (usually $PORT = 10000)
+bind = "0.0.0.0:10000"
 
 # Whether to authenticate players with Mojang
 online-mode = false
 
 # Player info forwarding mode
-# Options: "none", "legacy", "bungee", "modern"
-player-info-forwarding-mode = "legacy"
+# Use "modern" for Paper 1.13+ backends
+player-info-forwarding-mode = "modern"
 
 # Forwarding secret file (new format)
 forwarding-secret-file = "forwarding.secret"
 
-# Show players from backend servers in Velocity's tab list
+# Whether to announce Forge to backend servers
 announce-forge = false
 
 # Servers section
