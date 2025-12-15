@@ -30,3 +30,4 @@ EXPOSE 25567 10000
 CMD ["node", "bridge.js"]
 
 
+
