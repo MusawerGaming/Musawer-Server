@@ -1,16 +1,41 @@
+# Velocity Configuration
+# Config version must be 2 for modern builds
 config-version = 2
 
+# Bind address and port
 bind = "0.0.0.0:25567"
+
+# Whether to authenticate players with Mojang
 online-mode = false
+
+# Player info forwarding mode
+# Options: "none", "legacy", "bungee", "modern"
 player-info-forwarding-mode = "legacy"
+
+# Forwarding secret file (new format)
 forwarding-secret-file = "forwarding.secret"
 
+# Show players from backend servers in Velocity's tab list
+announce-forge = false
+
+# Servers section
 [servers]
 default = "mycuba.live:25594"
 
-# Remove forced-hosts completely for now
-# [forced-hosts]
-# "musawer-server-1.onrender.com" = [ "default" ]
+# Forced hosts section
+# Must be arrays of strings, not integers
+[forced-hosts]
+"musawer-server-1.onrender.com" = [ "default" ]
 
+# Message of the day
 motd = "Musawer Proxy"
+
+# Maximum players shown in the server list
 show-max-players = 20
+
+# Advanced settings
+connection-timeout = 5000
+read-timeout = 30000
+proxy-protocol = false
+compression-threshold = 256
+login-ratelimit = 3000
