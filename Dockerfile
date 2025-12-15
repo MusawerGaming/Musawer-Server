@@ -2,20 +2,16 @@ FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /server
 
-# Copy Velocity files
+# Copy Velocity jar
 COPY velocity.jar server.jar
+
+# Copy configs and assets
 COPY velocity.toml ./velocity.toml
-RUN echo "=== forced-hosts block ===" && grep -A2 "
-
-\[forced-hosts\]
-
-" ./velocity.toml || true
-
 COPY forwarding.secret ./forwarding.secret
 COPY plugins ./plugins
 COPY server-icon.png ./server-icon.png
 
-# Install Node.js
+# Install Node.js for bridge
 RUN apk add --no-cache nodejs npm
 
 # Copy bridge files
@@ -26,11 +22,5 @@ COPY bridge.js ./bridge.js
 # Expose ports
 EXPOSE 25567 10000
 
-# Run Node bridge (spawns Velocity internally)
+# Start Node bridge (which spawns Velocity)
 CMD ["node", "bridge.js"]
-
-
-
-
-
-
