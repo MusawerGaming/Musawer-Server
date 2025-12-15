@@ -7,7 +7,7 @@ forwarding-secret-file = "forwarding.secret"
 default = "mycuba.live:25594"
 
 [forced-hosts]
-"musawer-server-1.onrender.com" = ["default"]
+"musawer-server-1.onrender.com" = [ "default" ]
 
 motd = "Musawer Eaglercraft Proxy"
 show-max-players = 20
