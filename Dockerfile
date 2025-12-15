@@ -1,8 +1,13 @@
-FROM node:18-alpine
-WORKDIR /app
-COPY package.json ./
-RUN npm install --only=production
-COPY bridge.js ./
-ENV SERVER=example.com:0000
-EXPOSE 8080
-CMD ["npm", "start"]
+FROM eclipse-temurin:17-jdk-alpine
+
+WORKDIR /server
+
+# Download Velocity proxy
+ADD https://versions.velocitypowered.com/download/3.4.0-SNAPSHOT.jar server.jar
+
+# Copy plugins into container
+COPY plugins ./plugins
+
+EXPOSE 25567
+
+CMD ["java", "-jar", "server.jar"]
