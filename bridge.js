@@ -1,4 +1,3 @@
-// bridge.js
 const { spawn } = require("child_process");
 const WebSocket = require("ws");
 const net = require("net");
@@ -10,7 +9,7 @@ velocity.stdout.on("data", (data) => console.log(data.toString()));
 velocity.stderr.on("data", (data) => console.error(data.toString()));
 velocity.on("exit", (code) => console.log(`Velocity exited with code ${code}`));
 
-// Render assigns a PORT environment variable for HTTP/WebSocket services
+// Render assigns PORT for WebSocket service
 const WS_PORT = process.env.PORT || 10000;
 const VELOCITY_PORT = 25567;
 
