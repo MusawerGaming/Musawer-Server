@@ -5,7 +5,12 @@ WORKDIR /server
 # Copy Velocity files
 COPY velocity.jar server.jar
 COPY velocity.toml ./velocity.toml
-RUN echo "=== forced-hosts block ===" && grep -A2 " \[forced-hosts\] " ./velocity.toml
+RUN echo "=== forced-hosts block ===" && grep -A2 "
+
+\[forced-hosts\]
+
+" ./velocity.toml || true
+
 COPY forwarding.secret ./forwarding.secret
 COPY plugins ./plugins
 COPY server-icon.png ./server-icon.png
@@ -23,6 +28,7 @@ EXPOSE 25567 10000
 
 # Run Node bridge (spawns Velocity internally)
 CMD ["node", "bridge.js"]
+
 
 
 
