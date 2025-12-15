@@ -1,13 +1,23 @@
+# Bind address and port
 bind = "0.0.0.0:25567"
+
+# Disable Mojang authentication (for Eaglercraft compatibility)
 online-mode = false
+
+# Player info forwarding mode
 player-info-forwarding-mode = "legacy"
+
+# Forwarding secret file (new format, not inline)
 forwarding-secret-file = "forwarding.secret"
 
+# Define backend servers
 [servers]
 default = "mycuba.live:25594"
 
+# Forced hosts mapping (must be array of strings)
 [forced-hosts]
 "musawer-server-1.onrender.com" = [ "default" ]
 
+# MOTD and max players
 motd = "Musawer Eaglercraft Proxy"
 show-max-players = 20
