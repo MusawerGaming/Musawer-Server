@@ -9,5 +9,5 @@ default = "mycuba.live:25594"
 [forced-hosts]
 "musawer-server-1.onrender.com" = "default"
 
-motd = "Musawer's Server :)"
+motd = "Musawer Eaglercraft Proxy"
 show-max-players = 20
