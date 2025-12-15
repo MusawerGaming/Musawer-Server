@@ -1,0 +1,6 @@
+# Replace yourdomain.com with your real domain
+yourdomain.com {
+  encode gzip
+  # WebSocket proxy to the bridge service
+  reverse_proxy bridge:8080
+}
