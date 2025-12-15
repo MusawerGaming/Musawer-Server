@@ -24,7 +24,10 @@ wss.on("connection", (ws) => {
   });
 
   // Browser → Velocity
-  ws.on("message", (msg) => backend.write(msg));
+  ws.on("message", (msg) => {
+    console.log("Forwarding", msg.length, "bytes to Velocity");
+    backend.write(msg);
+  });
 
   // Velocity → Browser
   backend.on("data", (data) => ws.send(data));
