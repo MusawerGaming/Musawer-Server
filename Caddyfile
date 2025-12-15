@@ -1,6 +1,5 @@
+# Replace with your actual domain/host
 musawer-server-optimized.onrender.com {
     encode gzip
-
-    # Proxy all incoming HTTPS/WSS traffic to your bridge service
     reverse_proxy bridge:8080
 }
