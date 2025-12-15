@@ -5,11 +5,7 @@ services:
     build: .
     restart: unless-stopped
     environment:
-      - BRIDGE_LISTEN_PORT=${BRIDGE_LISTEN_PORT:-8080}
-      - BRIDGE_PATH=${BRIDGE_PATH:-/}
-      - BACKEND_WS_URL=${BACKEND_WS_URL:-ws://example.com:0000}
-      - USE_SDK=${USE_SDK:-false}
-      - ORIGIN_ALLOWLIST=${ORIGIN_ALLOWLIST:-}
+      - SERVER=${SERVER:-example.com:0000}
     networks: [net]
 
   caddy:
