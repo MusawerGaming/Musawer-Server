@@ -1,40 +1,34 @@
-# Velocity Configuration
-# Based on the default template, adapted for your setup
+# Velocity 3.2.0 specific config version
+config-version = "2.5"
 
-config-version = "2.0"
-
-# Bind to Render's dynamic port (usually $PORT = 10000)
+# Bind to Render's dynamic port
 bind = "0.0.0.0:10000"
 
-# Whether to authenticate players with Mojang
+# Authentication settings
 online-mode = false
 
-# Player info forwarding mode
-# Use "modern" for Paper 1.13+ backends
+# Player info forwarding
+# 3.2.0 supports "modern", "legacy", "bungee", or "none"
 player-info-forwarding-mode = "modern"
-
-# Forwarding secret file (new format)
 forwarding-secret-file = "forwarding.secret"
 
-# Whether to announce Forge to backend servers
 announce-forge = false
 
-# Servers section
 [servers]
 default = "mycuba.live:25594"
+try = ["default"]
 
-# Forced hosts section
-# Must be arrays of strings, not integers
 [forced-hosts]
-"musawer-server-1.onrender.com" = [ "default" ]
+"musawer-server-1.onrender.com" = ["default"]
 
-# Message of the day
+# CRITICAL FIX: In 3.2.0, MOTD must be a [section]
+[motd]
+# You can use legacy codes or MiniMessage (e.g. <red>)
 motd = "Musawer Proxy"
-
-# Maximum players shown in the server list
 show-max-players = 20
+ping-passthrough = "DISABLED"
 
-# Advanced settings
+[advanced]
 connection-timeout = 5000
 read-timeout = 30000
 proxy-protocol = false
