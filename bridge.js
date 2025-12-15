@@ -1,40 +1,37 @@
 const { spawn } = require("child_process");
 const WebSocket = require("ws");
 const net = require("net");
+const http = require("http");
 
-// Start Velocity as a child process
+// Start Velocity
 const velocity = spawn("java", ["-Xms512M", "-Xmx1G", "-jar", "server.jar"], { cwd: "/server" });
-
 velocity.stdout.on("data", (data) => console.log(`[Velocity] ${data}`));
-velocity.stderr.on("data", (data) => console.error(`[Velocity Error] ${data}`));
 
-// Render's required public port (10000)
 const WS_PORT = process.env.PORT || 10000;
-// Velocity's local private port
 const VELOCITY_PORT = 25567;
 
-const wss = new WebSocket.Server({ port: WS_PORT });
+// Create HTTP server to stop Render's "No open HTTP ports" error
+const server = http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end("Bridge is Online");
+});
+
+const wss = new WebSocket.Server({ server });
 
 wss.on("connection", (ws) => {
-    console.log("New Eaglercraft connection detected.");
-
-    // Connect to Velocity on its internal-only local port
+    console.log("Eaglercraft client connected");
     const backend = net.createConnection(VELOCITY_PORT, "127.0.0.1");
 
-    backend.on("data", (data) => {
-        if (ws.readyState === WebSocket.OPEN) ws.send(data);
-    });
-
-    ws.on("message", (msg) => {
-        if (backend.writable) backend.write(msg);
-    });
-
+    backend.on("data", (data) => ws.send(data));
+    ws.on("message", (msg) => { if (backend.writable) backend.write(msg); });
+    
     ws.on("close", () => backend.end());
-    backend.on("end", () => ws.close());
     backend.on("error", (err) => {
-        console.error("Bridge could not reach Velocity (still booting?):", err.message);
+        console.error("Velocity not ready yet:", err.message);
         ws.close();
     });
 });
 
-console.log(`Bridge active. Point Eaglercraft to: wss://musawer-server-1.onrender.com`);
+server.listen(WS_PORT, () => {
+    console.log(`Web/WSS Bridge active on port ${WS_PORT}`);
+});
