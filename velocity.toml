@@ -1,6 +1,7 @@
 bind = "0.0.0.0:25567"
 motd = "Eaglercraft Proxy"
 show-max-players = 100
+online-mode = false
 
 player-info-forwarding-mode = "legacy"
 forwarding-secret-file = "forwarding.secret"
