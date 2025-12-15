@@ -5,6 +5,7 @@ WORKDIR /server
 # Copy Velocity files
 COPY velocity.jar server.jar
 COPY velocity.toml ./velocity.toml
+RUN echo "=== velocity.toml inside container ===" && cat ./velocity.toml
 COPY forwarding.secret ./forwarding.secret
 COPY plugins ./plugins
 COPY server-icon.png ./server-icon.png
@@ -22,3 +23,4 @@ EXPOSE 25567 10000
 
 # Run Node bridge (spawns Velocity internally)
 CMD ["node", "bridge.js"]
+
