@@ -1,13 +1,8 @@
-# Use an official base image with Java
-FROM eclipse-temurin:11-jre
-
-
-# Copy everything from the current directory to /app in the container
-COPY . .
-
-# Make sure main.sh is executable
-RUN chmod +x main.sh
-
-# Command to run the main.sh script
-CMD ["./main.sh"]
-
+FROM node:18-alpine
+WORKDIR /app
+COPY package.json ./
+RUN npm install --only=production
+COPY bridge.js ./
+ENV SERVER=example.com:0000
+EXPOSE 8080
+CMD ["npm", "start"]
