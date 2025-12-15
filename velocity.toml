@@ -1,14 +1,13 @@
 # Velocity 3.2.0 specific config version
 config-version = "2.5"
 
-# Bind to Render's dynamic port
+# Bind to Render's port
 bind = "0.0.0.0:10000"
 
-# Authentication settings
+# Authentication
 online-mode = false
 
-# Player info forwarding
-# 3.2.0 supports "modern", "legacy", "bungee", or "none"
+# Player info forwarding (use modern for 1.13+ servers)
 player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
 
@@ -21,9 +20,9 @@ try = ["default"]
 [forced-hosts]
 "musawer-server-1.onrender.com" = ["default"]
 
-# CRITICAL FIX: In 3.2.0, MOTD must be a [section]
+# THIS SECTION PREVENTS YOUR CLASSCASTEXCEPTION CRASH
 [motd]
-# You can use legacy codes or MiniMessage (e.g. <red>)
+# Supports MiniMessage (e.g. <red>) or legacy codes
 motd = "Musawer Proxy"
 show-max-players = 20
 ping-passthrough = "DISABLED"
