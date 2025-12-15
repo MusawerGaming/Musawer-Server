@@ -1,9 +1,0 @@
-version: "3.8"
-services:
-  velocity:
-    build: .
-    ports:
-      - "25567:25567"
-    volumes:
-      - ./plugins:/server/plugins
-    restart: always
