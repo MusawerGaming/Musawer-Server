@@ -2,8 +2,8 @@ FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /server
 
-# Download stable Velocity build #296 directly
-ADD https://papermc.io/api/v2/projects/velocity/versions/3.2.0-SNAPSHOT/builds/296/download server.jar
+# Copy the stable Velocity jar you committed
+COPY velocity-3.2.0-SNAPSHOT-296.jar server.jar
 
 # Copy configs and assets
 COPY velocity.toml ./velocity.toml
