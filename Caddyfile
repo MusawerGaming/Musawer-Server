@@ -1,5 +1,8 @@
-# Replace with your actual domain/host
-musawer-server-optimized.onrender.com {
-    encode gzip
-    reverse_proxy bridge:8080
+{
+  # Optional: enable automatic HTTPS
+  auto_https on
+}
+
+musawer-server-1.onrender.com {
+  reverse_proxy localhost:25567
 }
