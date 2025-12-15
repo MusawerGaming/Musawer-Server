@@ -1,25 +1,13 @@
-# Bind Velocity to all interfaces on port 25567
 bind = "0.0.0.0:25567"
-
-# Disable online-mode (since Eaglercraft doesn’t use Mojang auth)
 online-mode = false
-
-# Forwarding mode must match backend (legacy works best for Eaglercraft)
 player-info-forwarding-mode = "legacy"
-
-# Forwarding secret file
 forwarding-secret-file = "forwarding.secret"
 
-# Define backend servers
 [servers]
 default = "mycuba.live:25594"
 
-# Force host mapping
 [forced-hosts]
 "musawer-server-1.onrender.com" = "default"
 
-# MOTD
-motd = "Musawer's Server :) "
-
-# Show in server list
+motd = "Musawer's Server :)"
 show-max-players = 20
