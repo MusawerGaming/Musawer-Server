@@ -1,30 +1,9 @@
 version: "3.8"
-
 services:
-  bridge:
+  velocity:
     build: .
-    restart: unless-stopped
-    environment:
-      - SERVER=${SERVER:-example.com:0000}
-    networks: [net]
-
-  caddy:
-    image: caddy:2
-    restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "25567:25567"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - bridge
-    networks: [net]
-
-networks:
-  net:
-
-volumes:
-  caddy_data:
-  caddy_config:
+      - ./plugins:/server/plugins
+    restart: always
