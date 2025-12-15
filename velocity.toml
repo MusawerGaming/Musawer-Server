@@ -4,11 +4,13 @@ bind = "0.0.0.0:25567"
 motd = "Eaglercraft Proxy"
 show-max-players = 100
 
+# Required: player info forwarding
+player-info-forwarding-mode = "legacy"
+forwarding-secret-file = "forwarding.secret"
+
 [servers]
-default = "backend"
+backend = "mycuba.live:25594"
+lobby = "mycuba.live:25594"
 
 [forced-hosts]
 "musawer-server-1.onrender.com" = ["backend"]
-
-[server.backend]
-host = "mycuba.live:25594"
