@@ -1,8 +1,6 @@
 config-version = "2.5"
-
-# BIND TO LOCALHOST ONLY (Prevents port conflict with bridge.js)
+# Change this to 25567 so bridge.js can talk to it
 bind = "127.0.0.1:25567"
-
 online-mode = false
 player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
@@ -11,10 +9,6 @@ forwarding-secret-file = "forwarding.secret"
 default = "mycuba.live:25594"
 try = ["default"]
 
-[forced-hosts]
-"musawer-server-1.onrender.com" = ["default"]
-
 [motd]
 motd = "Musawer Proxy"
 show-max-players = 20
-ping-passthrough = "DISABLED"
