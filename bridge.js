@@ -1,104 +1,77 @@
-// bridge.js
+// WebSocket <-> TCP bridge (single env var: SERVER)
 import WebSocket, { WebSocketServer } from "ws";
-import { createBackendClient } from "./sdkAdapter.js";
+import net from "net";
 
-const LISTEN_PORT = parseInt(process.env.BRIDGE_LISTEN_PORT || "8080", 10);
-const BRIDGE_PATH = process.env.BRIDGE_PATH || "/";
-const BACKEND_WS_URL = process.env.BACKEND_WS_URL || "ws://example.com:0000";
-const USE_SDK = (process.env.USE_SDK || "false").toLowerCase() === "true";
-const ORIGIN_ALLOWLIST = (process.env.ORIGIN_ALLOWLIST || "")
-  .split(",")
-  .map(s => s.trim())
-  .filter(Boolean);
+const SERVER = process.env.SERVER || "example.com:0000";
+const LISTEN_PORT = 8080; // fixed
+const BRIDGE_PATH = "/";  // fixed
 
-const server = new WebSocketServer({ port: LISTEN_PORT, path: BRIDGE_PATH });
-console.log(
-  `Bridge listening on ws://0.0.0.0:${LISTEN_PORT}${BRIDGE_PATH} -> ${BACKEND_WS_URL} (SDK: ${USE_SDK})`
-);
-
-function originAllowed(origin) {
-  if (ORIGIN_ALLOWLIST.length === 0) return true; // allow all if not set
-  try {
-    if (!origin) return false;
-    const o = origin.toLowerCase();
-    return ORIGIN_ALLOWLIST.some(allowed => o === allowed.toLowerCase());
-  } catch {
-    return false;
-  }
+function parseHostPort(hp) {
+  const idx = hp.lastIndexOf(":");
+  if (idx === -1) throw new Error("SERVER must be host:port");
+  const host = hp.slice(0, idx);
+  const port = Number(hp.slice(idx + 1));
+  if (!host || !Number.isFinite(port)) throw new Error("Invalid SERVER format");
+  return { host, port };
 }
 
-server.on("connection", async (client, req) => {
-  if (!originAllowed(req.headers.origin || "")) {
-    console.warn(`Blocked origin: ${req.headers.origin}`);
-    client.close(1008, "Origin not allowed");
-    return;
-  }
+const { host, port } = parseHostPort(SERVER);
+const wss = new WebSocketServer({ port: LISTEN_PORT, path: BRIDGE_PATH });
 
+console.log(`Bridge: ws://0.0.0.0:${LISTEN_PORT}${BRIDGE_PATH} -> tcp://${host}:${port}`);
+
+wss.on("connection", (client, req) => {
   console.log(`Browser connected from ${req.socket.remoteAddress}`);
-  const backend = await createBackendClient({
-    url: BACKEND_WS_URL,
-    useSdk: USE_SDK,
-    username: "BridgeBot",
+
+  const tcp = net.createConnection({ host, port }, () => {
+    console.log("Connected to backend TCP");
   });
 
-  let heartbeat;
-  const startHeartbeat = () => {
-    heartbeat = setInterval(() => {
-      try {
-        if (client.readyState === WebSocket.OPEN) client.ping();
-        backend.ping?.();
-      } catch (e) {
-        // ignore
-      }
-    }, 25000);
-  };
-
-  // Browser -> Backend
+  // WS -> TCP
   client.on("message", (data) => {
-    backend.send(data);
+    if (tcp.destroyed) return;
+    // Ensure Buffer for binary writes
+    const buf = Buffer.isBuffer(data) ? data : Buffer.from(data);
+    tcp.write(buf);
   });
 
-  // Backend -> Browser
-  backend.onMessage((data) => {
+  // TCP -> WS
+  tcp.on("data", (chunk) => {
     if (client.readyState === WebSocket.OPEN) {
-      client.send(data);
+      client.send(chunk, { binary: true });
     }
   });
 
-  backend.onOpen(() => {
-    console.log("Connected to backend");
-    startHeartbeat();
+  // Backpressure and errors
+  tcp.on("drain", () => {
+    // optional: could resume if you add pause logic
   });
 
-  const cleanup = () => {
-    clearInterval(heartbeat);
-    try {
-      backend.close();
-    } catch {
-      /* noop */
-    }
-  };
-
-  backend.onClose((code, reason) => {
-    console.log(`Backend closed: ${code} ${reason}`);
-    if (client.readyState === WebSocket.OPEN) client.close(code, reason);
-    cleanup();
-  });
-
-  backend.onError((err) => {
-    console.error("Backend error:", err?.message || err);
-    if (client.readyState === WebSocket.OPEN) client.close(1011, "Backend error");
-    cleanup();
-  });
-
-  client.on("close", () => {
-    backend.close();
-    cleanup();
+  tcp.on("error", (err) => {
+    console.error("TCP error:", err.message);
+    if (client.readyState === WebSocket.OPEN) client.close(1011, "TCP error");
   });
 
   client.on("error", (err) => {
-    console.error("Client error:", err?.message || err);
-    backend.close();
-    cleanup();
+    console.error("WS client error:", err.message);
+    if (!tcp.destroyed) tcp.destroy();
   });
+
+  // Close both sides together
+  tcp.on("close", () => {
+    if (client.readyState === WebSocket.OPEN) client.close();
+  });
+
+  client.on("close", () => {
+    if (!tcp.destroyed) tcp.destroy();
+  });
+
+  // Keepalive pings to keep proxies happy
+  const hb = setInterval(() => {
+    if (client.readyState === WebSocket.OPEN) {
+      try { client.ping(); } catch {}
+    } else {
+      clearInterval(hb);
+    }
+  }, 25000);
 });
