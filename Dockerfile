@@ -1,16 +1,18 @@
 FROM eclipse-temurin:17-jdk-alpine
 
+# Install Node environment
+RUN apk add --no-cache nodejs npm
+
 WORKDIR /server
 
-# Copy the jar you committed (named velocity.jar)
-COPY velocity.jar server.jar
+# Copy and setup files
+COPY . .
+# Rename for bridge.js consistency
+RUN mv velocity.jar server.jar || true
+RUN npm install
 
-# Copy configs and assets
-COPY velocity.toml ./velocity.toml
-COPY forwarding.secret ./forwarding.secret
-COPY plugins ./plugins
-COPY server-icon.png ./server-icon.png
+# Expose Render's assigned port
+EXPOSE 10000
 
-EXPOSE 25567
-
-CMD ["java", "-jar", "server.jar"]
+# Start only the bridge (it will spawn Velocity automatically)
+CMD ["node", "bridge.js"]
