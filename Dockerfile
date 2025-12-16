@@ -1,8 +1,16 @@
-FROM eclipse-temurin:17-jdk-alpine
-RUN apk add --no-cache nodejs npm
-WORKDIR /server
+# Use an official base image with Java
+FROM eclipse-temurin:17-jre
+
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy everything from the current directory to /app in the container
 COPY . .
-RUN mv velocity.jar server.jar || true
-RUN npm install ws
-EXPOSE 10000
-CMD ["node", "bridge.js"]
+
+# Make sure main.sh is executable
+RUN chmod +x main.sh
+
+# Command to run the main.sh script
+CMD ["./main.sh"]
