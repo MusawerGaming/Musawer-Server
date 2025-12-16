@@ -1,6 +1,8 @@
 config-version = "2.5"
-# Change this to 25567 so bridge.js can talk to it
+
+# Bind Velocity internally so bridge.js can own 10000
 bind = "127.0.0.1:25567"
+
 online-mode = false
 player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
@@ -9,6 +11,17 @@ forwarding-secret-file = "forwarding.secret"
 default = "mycuba.live:25594"
 try = ["default"]
 
-[motd]
+[forced-hosts]
+"musawer-server-1.onrender.com" = ["default"]
+
+# MOTD must be at root level, not inside [motd]
 motd = "Musawer Proxy"
 show-max-players = 20
+ping-passthrough = "DISABLED"
+
+[advanced]
+connection-timeout = 5000
+read-timeout = 30000
+proxy-protocol = false
+compression-threshold = 256
+login-ratelimit = 3000
