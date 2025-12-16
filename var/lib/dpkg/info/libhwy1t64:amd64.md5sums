@@ -1,6 +1,0 @@
-424581a35b112e581c0d1608e7577ac4  usr/lib/x86_64-linux-gnu/libhwy.so.1.0.7
-19d378c780ba49363e6e17712513a2e6  usr/lib/x86_64-linux-gnu/libhwy_contrib.so.1.0.7
-2d62f1f57ee83f57a330577f5ba2ddf1  usr/lib/x86_64-linux-gnu/libhwy_test.so.1.0.7
-c8338d9930290dcbe3e8b942b66c1cd6  usr/share/doc/libhwy1t64/changelog.Debian.gz
-96ea374637ca031e64b266438ee94c53  usr/share/doc/libhwy1t64/copyright
-adb928602febf7b94793545cd127b609  usr/share/lintian/overrides/libhwy1t64
