@@ -2,8 +2,8 @@
 echo starting...
 cd velocity
 
-MTOD="${MTOD:-'@atypicalpotato on youtube'}"
-SERVERNAME="${SERVERNAME:-Potato Server}"
+MTOD="${MTOD:-'built by Musawer'}"
+SERVERNAME="${SERVERNAME:-Musawer Server}"
 
 if [ -n "$ICON" ]; then
   echo "Downloading server icon from $ICON..."
