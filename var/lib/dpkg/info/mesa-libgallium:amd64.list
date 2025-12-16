@@ -1,0 +1,17 @@
+/.
+/usr
+/usr/lib
+/usr/lib/x86_64-linux-gnu
+/usr/lib/x86_64-linux-gnu/libgallium-25.0.7-0ubuntu0.24.04.1.so
+/usr/share
+/usr/share/bug
+/usr/share/bug/mesa-libgallium
+/usr/share/bug/mesa-libgallium/control
+/usr/share/bug/mesa-libgallium/script
+/usr/share/doc
+/usr/share/doc/mesa-libgallium
+/usr/share/doc/mesa-libgallium/changelog.Debian.gz
+/usr/share/doc/mesa-libgallium/copyright
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/mesa-libgallium

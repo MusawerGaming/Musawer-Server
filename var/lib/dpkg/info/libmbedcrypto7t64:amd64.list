@@ -1,0 +1,14 @@
+/.
+/usr
+/usr/lib
+/usr/lib/x86_64-linux-gnu
+/usr/lib/x86_64-linux-gnu/libmbedcrypto.so.2.28.8
+/usr/share
+/usr/share/doc
+/usr/share/doc/libmbedcrypto7t64
+/usr/share/doc/libmbedcrypto7t64/changelog.Debian.gz
+/usr/share/doc/libmbedcrypto7t64/copyright
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/libmbedcrypto7t64
+/usr/lib/x86_64-linux-gnu/libmbedcrypto.so.7
