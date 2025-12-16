@@ -2,7 +2,7 @@
 echo starting...
 cd velocity
 
-MTOD="${MTOD:-'built by Musawer'}"
+MTOD="${MTOD:-'Built By Musawer'}"
 SERVERNAME="${SERVERNAME:-Musawer Server}"
 
 if [ -n "$ICON" ]; then
