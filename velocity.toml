@@ -1,23 +1,26 @@
-config-version = "2.5"
+# Modern Velocity 3.x Config
+config-version = "2.7"
 
 # Bind Velocity internally so bridge.js can own 10000
 bind = "127.0.0.1:25567"
 
+# Basic Proxy Settings
+motd = "Musawer Proxy"
+show-max-players = 20
 online-mode = false
+ping-passthrough = "DISABLED"
+
+# Forwarding Settings
 player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
 
 [servers]
+# Note: "try" belongs in the [servers] block for most 3.x builds
 default = "mycuba.live:25594"
 try = ["default"]
 
 [forced-hosts]
 "musawer-server-1.onrender.com" = ["default"]
-
-# MOTD must be at root level, not inside [motd]
-motd = "Musawer Proxy"
-show-max-players = 20
-ping-passthrough = "DISABLED"
 
 [advanced]
 connection-timeout = 5000
@@ -25,3 +28,11 @@ read-timeout = 30000
 proxy-protocol = false
 compression-threshold = 256
 login-ratelimit = 3000
+# Prevents IP masking in logs
+enable-player-address-logging = true 
+
+[query]
+enabled = false
+port = 25567
+map = "Velocity"
+show-plugins = false
