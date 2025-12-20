@@ -2,8 +2,7 @@
 echo starting...
 cd velocity
 
-MTOD="§7§lMusawer Server §4• §cCome Play Now
-§8§lBuilt By §4Musawer"
+MTOD="§7§lMusawer Server §4• §cCome Play Now §8§lBuilt By §4Musawer"
 SERVERNAME="${SERVERNAME:-'Musawer Server'}"
 
 if [ -n "$ICON" ]; then
@@ -34,7 +33,7 @@ sed -i 's/${SERVER}/'"$SERVER"'/g' velocity.toml
 cd plugins
 cd eaglerxserver
 
-sed -i 's/${MTOD}/'"$MTOD"'/g' listeners.toml
+sed -i "s|\${MTOD}|$MTOD|g" listeners.toml
 
 cd /
 cd velocity
