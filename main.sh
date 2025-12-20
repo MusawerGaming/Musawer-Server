@@ -2,7 +2,7 @@
 echo starting...
 cd velocity
 
-MTOD="${MTOD:-'§7§lMusawer Server §4• §cCome Play Now
+MTOD="${MTOD:-'{§7§lMusawer Server §4• §cCome Play Now
  §8§lBuilt By §4Musawer}"
 SERVERNAME="${SERVERNAME:-'Musawer Server'}"
 
