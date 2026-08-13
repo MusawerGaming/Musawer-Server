@@ -77,7 +77,7 @@ enable-player-address-logging = true
 [servers]
 # Configure your servers here. Each key represents the server's name, and the value
 # represents the IP address of the server to connect to.
-main = "galactictest.falixsrv.me:21406"
+main = "musawer.play.hosting:5122"
 practice = "fr.mpl.2.overnode.fr:25591"
 lobby = "fr.mpl.1.overnode.fr:25565"
 
